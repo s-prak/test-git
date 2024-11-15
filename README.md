@@ -59,5 +59,4 @@ hello please again
 hello yellow mellow
 
 a new line
-
-a new line again 
+new line
