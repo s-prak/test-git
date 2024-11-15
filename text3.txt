@@ -1,2 +1,4 @@
 hello i am someone and special cuz i was created from feature2 branch 
 I am the seconf line from master branch
+
+adding insertions on multiple files 
