@@ -49,3 +49,7 @@ hello hello yellow
 hello to bash script
 
 hi please, another bash update
+
+now adding multiple insertiosn and deletions 
+
+
