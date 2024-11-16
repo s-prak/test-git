@@ -82,8 +82,4 @@ hello merge conflict
 
 hi to detect file in notificatiob
 
-<<<<<<< HEAD
-hello from here local 
-=======
 hello from remote
->>>>>>> 88cbaeeb792a976d5c08db807304164ad782a2ff
