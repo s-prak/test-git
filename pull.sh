@@ -26,6 +26,7 @@ function pull_from_github() {
     if echo "$OUTPUT" | grep -q "Already up to date"; then
         echo "Nothing to do: Already up to date"
     elif echo "$OUTPUT" | grep -q "CONFLICT"; then
+        osascript -e 'display notification "change is detected from remote" with title "change!!"'
         echo "Facing a merge conflict"
     elif echo "$OUTPUT" | grep -q "changed"; then
         osascript -e 'display notification "change is detected from remote" with title "change!!"'
