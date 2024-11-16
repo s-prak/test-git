@@ -72,4 +72,6 @@ new line
 adding merge 2
 hello        
 
-hello conflict
+hello conflict  
+
+hello again
