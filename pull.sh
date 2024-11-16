@@ -15,7 +15,7 @@ function pull_from_github() {
     timestamp=$(date)
 
     # Run git pull and save the output to a log file
-    git add . 
+    git add .
     git commit -m "$timestamp"
     OUTPUT=$(git pull origin main 2>&1)
     echo "Git Pull Output: $(date)" >> "$LOG_FILE"
@@ -26,14 +26,19 @@ function pull_from_github() {
     if echo "$OUTPUT" | grep -q "Already up to date"; then
         echo "Nothing to do: Already up to date"
     elif echo "$OUTPUT" | grep -q "CONFLICT"; then
-        osascript -e 'display notification "change is detected from remote" with title "Merge conflicts:0!!"'
-        echo "Facing a merge conflict"
-    elif echo "$OUTPUT" | grep -q "changed"; then
-        osascript -e 'display notification "change is detected from remote" with title "change(with no conflicts)!!"'
-        echo "Changes detected at $(date)"
-
-        # Extract and display lines after "Fast-forward"
-        echo "$OUTPUT" | awk '/Fast-forward/ {found=1; next} found {print}'
+        # Extract conflicted files
+        CONFLICTED_FILES=$(git diff --name-only --diff-filter=U)
+        osascript -e "display notification \"Conflicts in: $CONFLICTED_FILES\" with title \"Merge conflicts detected!\""
+        echo "Facing a merge conflict in the following files:"
+        echo "$CONFLICTED_FILES"
+    elif echo "$OUTPUT" | grep -q "Fast-forward"; then
+        # Extract changed files
+        CHANGED_FILES=$(echo "$OUTPUT" | awk '/Fast-forward/{found=1; next} found' | awk '{print $1}')
+        
+        # Notify changes
+        osascript -e "display notification \"Changes in: $CHANGED_FILES\" with title \"Changes detected!\""
+        echo "Changes detected in the following files:"
+        echo "$CHANGED_FILES"
 
         # Log the exact changes using git diff
         DIFF_OUTPUT=$(git diff HEAD@{1} HEAD)
@@ -41,7 +46,7 @@ function pull_from_github() {
         echo "$DIFF_OUTPUT" >> "$LOG_FILE"
         echo "" >> "$LOG_FILE"
 
-        # Also display the diff on the console
+        # Display the diff on the console
         echo "Exact Changes:"
         echo "$DIFF_OUTPUT"
     fi
