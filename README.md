@@ -69,6 +69,4 @@ hello
 hello
 another line  
 new line 
-adding merge
-
-help me with stash
+adding merge 2
