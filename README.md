@@ -67,13 +67,3 @@ hello
 
 hello
 hello
-another line  
-new line 
-adding merge 2
-<<<<<<< HEAD
-something else totally   
-hello please
-=======
-something else totally    
-hello please
->>>>>>> 386062c9b17c3fbdd98b440698bc43ef13dfbec3
