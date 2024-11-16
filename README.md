@@ -68,4 +68,5 @@ hello
 hello
 hello
 another line  
-new line 
+new line  
+adding merge
