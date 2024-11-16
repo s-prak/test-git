@@ -76,13 +76,6 @@ hello conflict
 
 hello again
 
-<<<<<<< HEAD
 hello conflict
-=======
-hello merge conflict
-<<<<<<< HEAD
->>>>>>> 6d39ca3f60c563e6d98c58c67e3c00552b2801ff
-=======
 
-hello after conflict
->>>>>>> 620497137a853a2ce5dbccde7f85a87fddf3c854
+hello merge conflict
