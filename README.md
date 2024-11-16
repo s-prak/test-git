@@ -77,3 +77,5 @@ hello conflict
 hello again
 
 hello merge conflict
+
+hello after conflict
