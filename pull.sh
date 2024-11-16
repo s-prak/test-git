@@ -12,8 +12,11 @@ LOG_FILE="/Users/sprak/Documents/merge_conflict_hackathon/log.log"
 # Function to perform git pull and process the output
 function pull_from_github() {
     cd "$REPO_DIR" || { echo "Failed to navigate to $REPO_DIR"; exit 1; }
-    
+    timestamp=$(date)
+
     # Run git pull and save the output to a log file
+    git add . 
+    git commit -m "$timestamp"
     OUTPUT=$(git pull origin main 2>&1)
     echo "Git Pull Output: $(date)" >> "$LOG_FILE"
     echo "$OUTPUT" >> "$LOG_FILE"
@@ -22,6 +25,8 @@ function pull_from_github() {
     # Check for the string "Already up to date"
     if echo "$OUTPUT" | grep -q "Already up to date"; then
         echo "Nothing to do: Already up to date"
+    elif echo "$OUTPUT" | grep -q "CONFLICT"; then
+        echo "Facing a merge conflict"
     elif echo "$OUTPUT" | grep -q "changed"; then
         osascript -e 'display notification "change is detected from remote" with title "change!!"'
         echo "Changes detected at $(date)"
