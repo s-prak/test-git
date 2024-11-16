@@ -69,4 +69,5 @@ hello
 hello
 another line  
 new line 
-adding merge 2
+adding merge 2  
+adding merge conflict
