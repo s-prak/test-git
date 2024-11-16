@@ -67,4 +67,5 @@ hello
 
 hello
 hello
-another line
+another line  
+new line 
