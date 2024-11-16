@@ -70,4 +70,5 @@ hello
 another line  
 new line 
 adding merge 2
-something else totally 
+something else totally   
+hello please
