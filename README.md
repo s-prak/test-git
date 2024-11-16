@@ -70,4 +70,6 @@ hello
 another line  
 new line 
 adding merge 2
-hello
+hello        
+
+hello conflict
