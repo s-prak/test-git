@@ -10,8 +10,8 @@ REPO_DIR="/Users/sprak/Documents/merge_conflict_hackathon/test-git-test"
 LOG_FILE="/Users/sprak/Documents/merge_conflict_hackathon/log.log"
 
 function notify() {
-    # local message=$1
-    # local title=$2
+     local message=$1
+     local title=$2
 
     # Detect operating system
     OS=$(uname)
@@ -19,7 +19,7 @@ function notify() {
     if [[ "$OS" == "Darwin" ]]; then
         echo "Darwin"
         # macOS: Use osascript for notifications
-       #  osascript -e "display notification \"$message\" with title \"$title\""
+          osascript -e "display notification \"$message\" with title \"$title\""
     elif [[ "$OS" == "Linux" ]]; then
         # Linux: Use notify-send for notifications
         echo "Linux"
@@ -77,7 +77,7 @@ function pull_from_github() {
     fi
 }
 
-notify
+notify "Conflicts in: " "Merge conflicts detected!"
 
 # Run the pull function immediately, then loop at intervals
 while true; do
