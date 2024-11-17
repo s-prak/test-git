@@ -9,6 +9,29 @@ REPO_DIR="/Users/sprak/Documents/merge_conflict_hackathon/test-git-test"
 # Output log file
 LOG_FILE="/Users/sprak/Documents/merge_conflict_hackathon/log.log"
 
+# Function to detect the OS and display notifications accordingly
+function notify() {
+    local message=$1
+    local title=$2
+
+    # Detect operating system
+    OS=$(uname)
+
+    if [[ "$OS" == "Darwin" ]]; then
+        # macOS: Use osascript for notifications
+        osascript -e "display notification \"$message\" with title \"$title\""
+    elif [[ "$OS" == "Linux" ]]; then
+        # Linux: Use notify-send for notifications
+        notify-send "$title" "$message"
+    elif [[ "$OS" == "CYGWIN"* || "$OS" == "MINGW"* || "$OS" == "MSYS"* ]]; then
+        # Windows (via Git Bash or WSL): Use PowerShell for notifications
+        powershell -Command "[System.Windows.Forms.MessageBox]::Show('$message', '$title')"
+    else
+        # Fallback for unknown OS
+        echo "$title: $message"
+    fi
+}
+
 # Function to perform git pull and process the output
 function pull_from_github() {
     cd "$REPO_DIR" || { echo "Failed to navigate to $REPO_DIR"; exit 1; }
@@ -28,7 +51,7 @@ function pull_from_github() {
     elif echo "$OUTPUT" | grep -q "CONFLICT"; then
         # Extract conflicted files
         CONFLICTED_FILES=$(git diff --name-only --diff-filter=U)
-        osascript -e "display notification \"Conflicts in: $CONFLICTED_FILES\" with title \"Merge conflicts detected!\""
+        notify "Conflicts in: $CONFLICTED_FILES" "Merge conflicts detected!"
         echo "Facing a merge conflict in the following files:"
         echo "$CONFLICTED_FILES"
     elif echo "$OUTPUT" | grep -q "Fast-forward"; then
@@ -36,7 +59,7 @@ function pull_from_github() {
         CHANGED_FILES=$(echo "$OUTPUT" | awk '/Fast-forward/{found=1; next} found' | awk '{print $1}')
         
         # Notify changes
-        osascript -e "display notification \"Changes in: $CHANGED_FILES\" with title \"Changes detected!\""
+        notify "Changes in: $CHANGED_FILES" "Changes detected!"
         echo "Changes detected in the following files:"
         echo "$CHANGED_FILES"
 
