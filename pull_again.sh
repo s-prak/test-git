@@ -13,6 +13,7 @@ function notify {
     local title="$2"
 
     if [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "hello from here"
         osascript -e "display notification \"$message\" with title \"$title\""
     elif command -v notify-send &> /dev/null; then
         notify-send "$title" "$message"
