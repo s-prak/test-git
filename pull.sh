@@ -59,7 +59,7 @@ function pull_from_github() {
     elif echo "$OUTPUT" | grep -q "changed"; then
         # Extract changed files
         # CHANGED_FILES=$(echo "$OUTPUT" | awk '/Fast-forward/{found=1; next} found' | awk '{print $1}')
-        git diff --name-only HEAD@{1} HEAD
+        CHANGED_FILES=$(git diff --name-only HEAD@{1} HEAD)
 
         
         # Notify changes
