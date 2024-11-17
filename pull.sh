@@ -27,7 +27,7 @@ function notify() {
     elif [[ "$OS" == "CYGWIN"* || "$OS" == "MINGW"* || "$OS" == "MSYS"* ]]; then
         # Windows (via Git Bash or WSL): Use PowerShell for notifications
         echo "Windows"
-        # powershell -Command "[System.Windows.Forms.MessageBox]::Show('$message', '$title')"
+         powershell -Command "[System.Windows.Forms.MessageBox]::Show('$message', '$title')"
     else
         # Fallback for unknown OS
         echo "$title: $message"
@@ -53,7 +53,7 @@ function pull_from_github() {
     elif echo "$OUTPUT" | grep -q "CONFLICT"; then
         # Extract conflicted files
         CONFLICTED_FILES=$(git diff --name-only --diff-filter=U)
-        osascript -e "display notification \"Conflicts in: $CONFLICTED_FILES\" with title \"Merge conflicts detected!\""
+        notify "Conflicts in: $CONFLICTED_FILES" "Merge conflicts detected!"
         echo "Facing a merge conflict in the following files:"
         echo "$CONFLICTED_FILES"
     elif echo "$OUTPUT" | grep -q "changed"; then
@@ -61,7 +61,7 @@ function pull_from_github() {
         CHANGED_FILES=$(echo "$OUTPUT" | awk '/Fast-forward/{found=1; next} found' | awk '{print $1}')
         
         # Notify changes
-        osascript -e "display notification \"Changes in: $CHANGED_FILES\" with title \"Changes detected!\""
+        notify "Changes in: $CHANGED_FILES" "Clean changes incorporated ;)"
         echo "Changes detected in the following files:"
         echo "$CHANGED_FILES"
 
@@ -77,7 +77,6 @@ function pull_from_github() {
     fi
 }
 
-notify "Conflicts in: " "Merge conflicts detected!"
 
 # Run the pull function immediately, then loop at intervals
 while true; do
