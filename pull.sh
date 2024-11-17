@@ -77,7 +77,7 @@ function pull_from_github() {
     fi
 }
 
-# ßnotify() 
+notify
 
 # Run the pull function immediately, then loop at intervals
 while true; do
