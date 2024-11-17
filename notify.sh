@@ -24,3 +24,6 @@ function notify() {
 }
 
 notify "Conflicts in: $CONFLICTED_FILES" "Merge conflicts detected!"
+
+CHANGED_FILES=$(git diff --name-only HEAD@{1} HEAD)
+echo $CHANGED_FILES
