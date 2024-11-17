@@ -22,3 +22,5 @@ function notify() {
         echo "$title: $message"
     fi
 }
+
+notify "Conflicts in: $CONFLICTED_FILES" "Merge conflicts detected!"
