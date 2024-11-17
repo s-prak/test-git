@@ -5,6 +5,8 @@ function notify() {
     # Detect operating system
     OS=$(uname)
 
+    echo "hello hello hello"
+
     if [[ "$OS" == "Darwin" ]]; then
         echo "Darwin"
         # macOS: Use osascript for notifications
