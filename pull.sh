@@ -9,6 +9,31 @@ REPO_DIR="/Users/sprak/Documents/merge_conflict_hackathon/test-git-test"
 # Output log file
 LOG_FILE="/Users/sprak/Documents/merge_conflict_hackathon/log.log"
 
+function notify() {
+    local message=$1
+    local title=$2
+
+    # Detect operating system
+    OS=$(uname)
+
+    if [[ "$OS" == "Darwin" ]]; then
+        echo "Darwin"
+        # macOS: Use osascript for notifications
+        osascript -e "display notification \"$message\" with title \"$title\""
+    elif [[ "$OS" == "Linux" ]]; then
+        # Linux: Use notify-send for notifications
+        echo "Linux"
+        notify-send "$title" "$message"
+    elif [[ "$OS" == "CYGWIN"* || "$OS" == "MINGW"* || "$OS" == "MSYS"* ]]; then
+        # Windows (via Git Bash or WSL): Use PowerShell for notifications
+        echo "Windows"
+        powershell -Command "[System.Windows.Forms.MessageBox]::Show('$message', '$title')"
+    else
+        # Fallback for unknown OS
+        echo "$title: $message"
+    fi
+}
+
 # Function to perform git pull and process the output
 function pull_from_github() {
     cd "$REPO_DIR" || { echo "Failed to navigate to $REPO_DIR"; exit 1; }
@@ -51,6 +76,8 @@ function pull_from_github() {
         echo "$DIFF_OUTPUT"
     fi
 }
+
+notify() 
 
 # Run the pull function immediately, then loop at intervals
 while true; do
