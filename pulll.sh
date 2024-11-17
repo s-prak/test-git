@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Set the interval in seconds (e.g., every 3 minutes = 180 seconds)
 INTERVAL=180
 
@@ -14,8 +16,9 @@ function pull_from_github() {
 
     # Run git pull and save the output to a log file
     git add .
-    git commit -m "$timestamp"
+    git commit -m "$timestamp" > /dev/null 2>&1
     OUTPUT=$(git pull origin main 2>&1)
+
     echo "Git Pull Output: $(date)" >> "$LOG_FILE"
     echo "$OUTPUT" >> "$LOG_FILE"
     echo "" >> "$LOG_FILE"  # Add an empty line for separation
@@ -30,10 +33,10 @@ function pull_from_github() {
         echo "Facing a merge conflict in the following files:"
         echo "$CONFLICTED_FILES"
     elif echo "$OUTPUT" | grep -q "Fast-forward"; then
-        # Extract changed files
-        CHANGED_FILES=$(echo "$OUTPUT" | awk '/Fast-forward/{found=1; next} found' | awk '{print $1}')
+        # Extract changed files from the pull output using git diff
+        CHANGED_FILES=$(git diff --name-only HEAD@{1} HEAD)
         
-        # Notify changes
+        # Notify about the changes
         osascript -e "display notification \"Changes in: $CHANGED_FILES\" with title \"Changes detected!\""
         echo "Changes detected in the following files:"
         echo "$CHANGED_FILES"
