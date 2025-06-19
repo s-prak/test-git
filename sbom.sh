@@ -11,7 +11,7 @@ if ls | grep -Eq '^sbom-v[0-9]+\.[0-9]+\.[0-9]+\.csv$'; then
           fi
           git add .
           git commit -m "chore(sbom): update sbom [skip ci]" || echo "No changes to commit"
-          git push origin "${CIRCLE_BRANCH}" || echo "Git push failed"
+          git push origin main || echo "Git push failed"
         else
           echo "No matching sbom-<version>.csv found. Skipping SBOM generation."
         fi
